@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Data Array
+  - Bridge
+  - Rain
+  - Storm
+  - Wind
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Frame
+  - Wheels
+  - Ground
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background 3
+    uniqueID: 1035900289
+    locked: 0
+  - name: Background 2
+    uniqueID: 420884567
+    locked: 0
+  - name: Background 1
+    uniqueID: 3296165067
+    locked: 0
+  - name: Showroom Boxes
+    uniqueID: 3540175803
+    locked: 0
+  - name: Finish
+    uniqueID: 3115469689
+    locked: 0
+  - name: Ground Back
+    uniqueID: 1484610817
+    locked: 0
+  - name: Ground
+    uniqueID: 3220485905
+    locked: 0
+  - name: Wheels
+    uniqueID: 301874525
+    locked: 0
+  - name: Frame
+    uniqueID: 4135440397
+    locked: 0
+  - name: Crank
+    uniqueID: 3336452341
+    locked: 0
+  - name: Paddles
+    uniqueID: 3423756951
+    locked: 0
+  - name: Handles
+    uniqueID: 3653702343
+    locked: 0
+  - name: Ground Front
+    uniqueID: 2676920951
+    locked: 0
+  - name: Border
+    uniqueID: 299746039
+    locked: 0
+  - name: Timers
+    uniqueID: 5351135
+    locked: 0
+  - name: Foreground 2
+    uniqueID: 3896446507
+    locked: 0
+  - name: Foreground 1
+    uniqueID: 1114329557
+    locked: 0
+  - name: Weather
+    uniqueID: 2263681997
+    locked: 0
+  - name: Showroom Buttons
+    uniqueID: 955969275
+    locked: 0
+  - name: Statistics Backgrounds
+    uniqueID: 2830819539
+    locked: 0
+  - name: Statistics
+    uniqueID: 1804758055
+    locked: 0
+  - name: Frontmost
+    uniqueID: 3220858667
+    locked: 0
