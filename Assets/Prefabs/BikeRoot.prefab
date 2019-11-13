@@ -378,6 +378,7 @@ GameObject:
   - component: {fileID: 3057461125319879752}
   - component: {fileID: 3634639969895425315}
   - component: {fileID: 9006736170059815592}
+  - component: {fileID: 3389604227725482080}
   - component: {fileID: 3182507343083296315}
   - component: {fileID: 4465897048583983340}
   m_Layer: 0
@@ -420,7 +421,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 25
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -513,22 +514,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceef1fb148e4b8241be3d7597d753e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backWheel: {fileID: 3952088204877907259}
-  backRB: {fileID: 3182507343355452958}
-  frontRB: {fileID: 3182507343915940912}
-  crankRB: {fileID: 466116008880597226}
-  speed: 800
-  torque: 300
-  rotationSpeed: 70
-  crank: {fileID: 3634639969895425315}
-  speedCrank: 150
-  torqueCrank: 20
-  windSpeed: 2000
-  windFrequency: 3
-  maxSpeed: 0
+  backWheel: {fileID: 0}
+  crank: {fileID: 0}
+  backRB: {fileID: 0}
+  frontRB: {fileID: 0}
+  speed: 0
+  torque: 0
+  rotationSpeed: 0
+  speedCrank: 0
+  torqueCrank: 0
+  windSpeed: 0
+  windFrequency: 0
   isInRain: 0
   isInStorm: 0
   isInWind: 0
+--- !u!114 &3389604227725482080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3182507343083296304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 855ffa4420d133844aba33757a0d812c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nominalSpeed: 800
+  currentSpeed: 0
 --- !u!114 &3182507343083296315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,9 +560,22 @@ MonoBehaviour:
   wheelBackObject: {fileID: 2852704783009746435}
   wheelFrontObject: {fileID: 1556182043461741745}
   handleObject: {fileID: 5246575569788410607}
+  pedalRenderer: {fileID: 0}
+  frameRenderer: {fileID: 0}
+  crankRenderer: {fileID: 0}
+  wheelBackRenderer: {fileID: 0}
+  wheelFrontRenderer: {fileID: 0}
+  handleRenderer: {fileID: 0}
   moveObjectShowroom: 0
   reloadSelected: 0
   oneWheel: 0
+  speedModifier: 0
+  weightModifier: 0
+  gripModifier: 0
+  dryModifier: 0
+  rainModifier: 0
+  stormModifier: 0
+  windModifier: 0
 --- !u!114 &4465897048583983340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1288,16 +1314,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ambulance
       objectReference: {fileID: 0}
-    - target: {fileID: 5865268483194663880, guid: b0ccf894c506c174d9af3a9b1e9f7318,
-        type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5865268483194663880, guid: b0ccf894c506c174d9af3a9b1e9f7318,
-        type: 3}
-      propertyPath: Loop
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7846801927730009470, guid: b0ccf894c506c174d9af3a9b1e9f7318,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1351,6 +1367,16 @@ PrefabInstance:
     - target: {fileID: 7846801927730009470, guid: b0ccf894c506c174d9af3a9b1e9f7318,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5865268483194663880, guid: b0ccf894c506c174d9af3a9b1e9f7318,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5865268483194663880, guid: b0ccf894c506c174d9af3a9b1e9f7318,
+        type: 3}
+      propertyPath: Loop
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -5,23 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private string targetLevel;
-    private int targetNum;
+    //private string targetLevel;
+    //private int targetNum;
 
-    private void Start()
-    {
-        targetNum = PlayerPrefs.GetInt("targetLevel");
-        targetLevel = gameObject.GetComponent<DataArray>().level[targetNum];
-    }
+    //private void Start()
+    //{
+    //    targetNum = PlayerPrefs.GetInt("targetLevel");
+    //    targetLevel = gameObject.GetComponent<DataArray>().level[targetNum];
+    //}
 
-    public void GoToTargetLevel()
-    {
-        SceneManager.LoadScene(targetLevel, LoadSceneMode.Single);
-    }
+    //public void GoToTargetLevel()
+    //{
+    //    SceneManager.LoadScene(targetLevel, LoadSceneMode.Single);
+    //}
 
     public void ToShowroom()
     {
-        if (GetComponent<DataArray>().hasVisitedControls == true)
+        if (PlayerPrefs.GetString("hasVisitedControlRoom") == "true")
         {
             SceneManager.LoadScene("Showroom", LoadSceneMode.Single);
         }

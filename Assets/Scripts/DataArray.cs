@@ -6,299 +6,135 @@ using UnityEngine.SceneManagement;
 
 public class DataArray : MonoBehaviour
 {
-    public BikeComponent[] wheels;
+    [Header("Bike Components")]
+    [SerializeField] public BikeComponent[] wheels;
+    [SerializeField] public BikeComponent[] frames;
+    [SerializeField] public BikeComponent[] cranks;
+    [SerializeField] public BikeComponent[] handles;
+    [SerializeField] public BikeComponent[] pedals;
 
-    public Data wheel;
-    public Data handle;
-    public Data frame;
-    public Data crank;
-    public Data pedal;
-    public bool push;
-    public bool pull;
-    public WeatherExceptions[] weather;
-    public float nominalRainPenalty;
-    public float nominalStormPenalty;
+    //Selected Components
+    [HideInInspector] public int wheelSelected;
+    [HideInInspector] public int frameSelected;
+    [HideInInspector] public int handleSelected;
+    [HideInInspector] public int pedalSelected;
 
-    public string[] level;
-    public int[] goal;
-    public string currentLevel;
-    public int currentGoal;
-    public bool hasVisitedControls;
+    [Header("Weather Modifier")]
+    [SerializeField, Range(-2, 0)] public int nominalRainPenalty;
+    [SerializeField, Range(-2, 0)] public int nominalStormPenalty;
 
-    public float speedModifier;
-    public float weightModifier;
-    public float gripModifier;
+    [Header("Push and/or Pull")]
+    [SerializeField] private bool push = false;
+    [SerializeField] private bool pull = false;
 
-    public float dryModifier;
-    public float rainModifier;
-    public float stormModifier;
-    public float windModifier;
+    [Header("Level and Time Goal")]
+    [SerializeField] public Levels[] levels;
+    [HideInInspector] public string currentLevel;
+    [HideInInspector] public int currentLevelNum;
+    [HideInInspector] public int absoluteTimeGoal;
 
     private void Start()
     {
         Time.timeScale = 1.00f;
 
-        PlayerPrefs.SetInt("targetLevel", 0);
-
         if (pull == true)
         {
-            wheel.selected = PlayerPrefs.GetInt("wheel");
-            handle.selected = PlayerPrefs.GetInt("handle");
-            frame.selected = PlayerPrefs.GetInt("frame");
-            pedal.selected = PlayerPrefs.GetInt("pedal");
-
-            speedModifier = 2f * (wheel.Speed[wheel.selected] + pedal.Speed[pedal.selected] + handle.Speed[handle.selected] + frame.Speed[frame.selected] - 100f);
-
-            weightModifier = 0.125f * (-pedal.Weight[pedal.selected] - frame.Weight[frame.selected] - wheel.Weight[wheel.selected] - handle.Weight[handle.selected]);
-
-            gripModifier = 0.1f * (wheel.Grip[wheel.selected] + pedal.Grip[pedal.selected] + handle.Grip[handle.selected] + frame.Grip[frame.selected] - 40f);
-
-            dryModifier = DryModifier();
-            rainModifier = RainModifier();
-            stormModifier = StormModifier();
-            windModifier = WindModifier();
+            wheelSelected = PlayerPrefs.GetInt("wheel");
+            handleSelected = PlayerPrefs.GetInt("handle");
+            frameSelected = PlayerPrefs.GetInt("frame");
+            pedalSelected = PlayerPrefs.GetInt("pedal");
         }
 
         currentLevel = SceneManager.GetActiveScene().name;
 
         if (currentLevel == "Control Room")
         {
-            hasVisitedControls = true;
-        }
-        else
-        {
-            hasVisitedControls = false;
+            PlayerPrefs.SetString("hasVisitedControlRoom", "true");
+            PlayerPrefs.Save();
         }
 
-        for (int i = 0; i < level.Length; i++)
+        for (int i = 0; i < levels.Length; i++)
         {
-            if (currentLevel == level[i])
+            if (GetComponent<DataArray>().currentLevel == levels[i].scene.name)
             {
-                currentGoal = goal[i];
+                currentLevelNum = i;
+                absoluteTimeGoal = levels[i].absoluteTimeGoal;
+                break;
             }
         }
     }
 
-    private void Update()
+    private void OnDestroy()
     {
         if (push == true)
         {
-            PlayerPrefs.SetInt("wheel", wheel.selected);
-            PlayerPrefs.SetInt("handle", handle.selected);
-            PlayerPrefs.SetInt("frame", frame.selected);
-            PlayerPrefs.SetInt("pedal", pedal.selected);
-
-            weightModifier = 0.125f * (-pedal.Weight[pedal.selected] - frame.Weight[frame.selected] - wheel.Weight[wheel.selected] - handle.Weight[handle.selected]);
-
-            speedModifier = 2f * (wheel.Speed[wheel.selected] + pedal.Speed[pedal.selected] + handle.Speed[handle.selected] + frame.Speed[frame.selected] - 100f);
-
-            gripModifier = 0.1f * (wheel.Grip[wheel.selected] + pedal.Grip[pedal.selected] + handle.Grip[handle.selected] + frame.Grip[frame.selected] - 40f);
-
-            dryModifier = DryModifier();
-            rainModifier = RainModifier();
-            stormModifier = StormModifier();
-            windModifier = WindModifier();
+            PlayerPrefs.SetInt("wheel", wheelSelected);
+            PlayerPrefs.SetInt("handle", handleSelected);
+            PlayerPrefs.SetInt("frame", frameSelected);
+            PlayerPrefs.SetInt("pedal", pedalSelected);
 
             PlayerPrefs.Save();
         }
     }
 
-    public void WheelUpButton()
+    public void WheelButton(bool up)
     {
-        wheel.selected = UpButton(wheel.selected);
+        if (up) {
+            NextSelection(ref wheelSelected, wheels.Length);
+        } else {
+            PrevSelection(ref wheelSelected, wheels.Length);
+        }
     }
 
-    public void WheelDownButton()
+    public void HandleButton(bool up)
     {
-        wheel.selected = DownButton(wheel.selected);
-    }
-
-    public void HandleUpButton()
-    {
-        handle.selected = UpButton(handle.selected);
-    }
-
-    public void HandleDownButton()
-    {
-        handle.selected = DownButton(handle.selected);
-    }
-
-    public void PedalUpButton()
-    {
-        pedal.selected = UpButton(pedal.selected);
-    }
-
-    public void PedalDownButton()
-    {
-        pedal.selected = DownButton(pedal.selected);
-    }
-
-    public void FrameUpButton()
-    {
-        frame.selected = UpButton(frame.selected);
-    }
-
-    public void FrameDownButton()
-    {
-        frame.selected = DownButton(frame.selected);
-    }
-
-    private int UpButton(int x)
-    {
-        if (x < wheel.sprite.Length - 1)
+        if (up)
         {
-            x += 1;
+            NextSelection(ref handleSelected, handles.Length);
+        } else {
+            PrevSelection(ref handleSelected, handles.Length);
+        }
+    }
+
+    public void PedalButton(bool up)
+    {
+        if (up)
+        {
+            NextSelection(ref pedalSelected, pedals.Length);
         }
         else
         {
-            x = 0;
+            PrevSelection(ref pedalSelected, pedals.Length);
         }
-        return x;
     }
 
-    private int DownButton(int x)
+    public void FrameButton(bool up)
     {
-        if (x > 0)
+        if (up)
         {
-            x -= 1;
+            NextSelection(ref frameSelected, frames.Length);
         }
         else
         {
-            x = wheel.sprite.Length - 1;
+            PrevSelection(ref frameSelected, frames.Length);
         }
-        return x;
     }
 
-    private float DryModifier()
+    private void NextSelection(ref int selection, int max)
     {
-        float x = 100;
-        for (int i = 0; i < weather.Length; i++)
+        selection++;
+        if (selection >= max)
         {
-            if (weather[i].dry != 0 && SelectedMatch(i))
-            {
-                x += weather[i].dry;
-            }
+            selection = 0;
         }
-        x = Clamp(0.7f, 1.3f, x * 0.01f);
-        return x;
     }
 
-    private float RainModifier()
+    private void PrevSelection(ref int selection, int max)
     {
-        float x = 100;
-        float unChangedNumbers = wheel.sprite.Length;
-        for (int i = 0; i < weather.Length; i++)
+        selection--;
+        if (selection < 0)
         {
-            if (weather[i].rain != 0 && SelectedMatch(i))
-            {
-                x += weather[i].rain;
-                unChangedNumbers--;
-            }
+            selection = max - 1;
         }
-        x += unChangedNumbers * nominalRainPenalty;
-        x = Clamp(0.7f, 1.3f, x * 0.01f);
-        return x;
     }
-
-    private float StormModifier()
-    {
-        float x = 100;
-        float unChangedNumbers = wheel.sprite.Length;
-        for (int i = 0; i < weather.Length; i++)
-        {
-            if (weather[i].storm != 0 && SelectedMatch(i))
-            {
-                x += weather[i].storm;
-                unChangedNumbers--;
-            }
-        }
-        x += unChangedNumbers * nominalStormPenalty;
-        x = Clamp(0.7f, 1.3f, x * 0.01f);
-        return x;
-    }
-
-    private float WindModifier()
-    {
-        float x = 100;
-        for (int i = 0; i < weather.Length; i++)
-        {
-            if (weather[i].wind != 0 && SelectedMatch(i))
-            {
-                x += weather[i].wind;
-            }
-        }
-        x = Clamp(0.7f, 1.3f, x * 0.01f);
-        return x;
-    }
-
-    private float Clamp(float min, float max, float input)
-    {
-        float output;
-        if (input > max)
-        {
-            output = max;
-        } else if (input < min)
-        {
-            output = min;
-        } else
-        {
-            output = input;
-        }
-        return output;
-    }
-
-    private bool SelectedMatch(int x)
-    {
-        bool y = false;
-        if (!(weather[x].elementType.IndexOf("Wheel") == -1))
-        {
-            if (wheel.selected == weather[x].elementNo)
-            {
-                y = true;
-            }
-        }
-        else if (!(weather[x].elementType.IndexOf("Handle") == -1))
-        {
-            if (handle.selected == weather[x].elementNo)
-            {
-                y = true;
-            }
-        }
-        else if (!(weather[x].elementType.IndexOf("Frame") == -1))
-        {
-            if (frame.selected == weather[x].elementNo)
-            {
-                y = true;
-            }
-        }
-        else if (!(weather[x].elementType.IndexOf("Pedal") == -1))
-        {
-            if (pedal.selected == weather[x].elementNo)
-            {
-                y = true;
-            }
-        }
-        return y;
-    }
-}
-
-[System.Serializable]
-public class Data
-{
-    public int selected;
-    public Sprite[] sprite;
-    public float[] Speed;
-    public float[] Grip;
-    public float[] Weight;
-}
-
-[System.Serializable]
-public class WeatherExceptions
-{
-    public string elementType;
-    public int elementNo;
-    public float dry;
-    public float rain;
-    public float storm;
-    public float wind;
 }

@@ -4,34 +4,36 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
-    public int timeSeconds;
-    public int timeMinutes;
-    public int goalSeconds;
-    public int goalMinutes;
-    public int highscoreMinutes;
-    public int highscoreSeconds;
-    public int absoluteSeconds;
-    public bool missedGoal = false;
-    public bool timeStarted = false;
+    //Time keeping
+    [HideInInspector] private float timeLevelJoin;
+    [HideInInspector] public int timeSeconds;
+    [HideInInspector] public int timeMinutes;
+    [HideInInspector] public int absoluteSeconds;
+    [HideInInspector] private int lastNum;
+    [HideInInspector] public bool timeStarted = false;
 
-    private string currentLevel;
-    private int levelHighscore;
-    private float timeLevelJoin;
-    private int absoluteGoal;
+    //Time Goal
+    [HideInInspector] private int absoluteTimeGoal;
+    [HideInInspector] public int timeGoalSeconds;
+    [HideInInspector] public int timeGoalMinutes;
+    [HideInInspector] public bool missedTimeGoal = false;
+
+    //Highscores
+    [HideInInspector] private int levelHighscore;
+    [HideInInspector] public int highscoreMinutes;
+    [HideInInspector] public int highscoreSeconds;
 
     void Start()
     {
-        currentLevel = gameObject.GetComponent<DataArray>().currentLevel;
+        absoluteTimeGoal = GetComponent<DataArray>().absoluteTimeGoal;
 
-        levelHighscore = PlayerPrefs.GetInt("Highscore" + currentLevel);
+        levelHighscore = PlayerPrefs.GetInt("Highscore" + gameObject.GetComponent<DataArray>().currentLevel);
 
-        absoluteGoal = gameObject.GetComponent<DataArray>().currentGoal;
+        timeGoalSeconds = 0;
+        timeGoalMinutes = 0;
 
-        goalSeconds = absoluteGoal % 60;
-        goalMinutes = Mathf.FloorToInt(absoluteGoal / 60);
-
-        highscoreSeconds = levelHighscore % 60;
-        highscoreMinutes = Mathf.FloorToInt(levelHighscore / 60);
+        ToSeconds(ref levelHighscore);
+        ToMinutes(ref levelHighscore);
     }
 
     void Update()
@@ -42,24 +44,39 @@ public class TimeManager : MonoBehaviour
             {
                 timeLevelJoin = Time.time;
             }
+
             absoluteSeconds = Mathf.FloorToInt(Time.time - timeLevelJoin);
-        }
 
-        timeSeconds = absoluteSeconds % 60;
-        timeMinutes = Mathf.FloorToInt(absoluteSeconds / 60);
+            if (lastNum + 1 <= absoluteSeconds)
+            {
+                ToSeconds(ref absoluteSeconds);
+                ToMinutes(ref absoluteSeconds);
+                lastNum = absoluteSeconds;
+            }
 
-        if (absoluteGoal <= absoluteSeconds)
-        {
-            missedGoal = true;
-        }
+            if (absoluteTimeGoal <= absoluteSeconds)
+            {
+                missedTimeGoal = true;
+            }
 
-        if (gameObject.GetComponent<FinishManager>().levelCompleted && (levelHighscore == 0 || levelHighscore > absoluteSeconds))
-        {
-            levelHighscore = absoluteSeconds;
-            PlayerPrefs.SetInt("Highscore" + currentLevel, levelHighscore);
-            PlayerPrefs.Save();
-            highscoreSeconds = levelHighscore % 60;
-            highscoreMinutes = Mathf.FloorToInt(levelHighscore / 60);
+            if (gameObject.GetComponent<FinishManager>().levelCompleted && (levelHighscore == 0 || levelHighscore > absoluteSeconds))
+            {
+                levelHighscore = absoluteSeconds;
+                PlayerPrefs.SetInt("Highscore" + gameObject.GetComponent<DataArray>().currentLevel, levelHighscore);
+                PlayerPrefs.Save();
+                ToSeconds(ref levelHighscore);
+                ToMinutes(ref levelHighscore);
+            }
         }
+    }
+
+    private void ToSeconds(ref int timeInput)
+    {
+        timeInput %= 60;
+    }
+
+    private void ToMinutes(ref int timeInput)
+    {
+        timeInput = Mathf.FloorToInt(timeInput / 60);
     }
 }
