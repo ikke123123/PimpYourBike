@@ -27,8 +27,6 @@ public class BikeController : MonoBehaviour
     private void Start()
     {
         rigidBody = gameObject.GetComponent<Rigidbody2D>();
-        UpdateSpeed();
-        UpdateRotationSpeed();
     }
 
     private void Update()
@@ -55,12 +53,12 @@ public class BikeController : MonoBehaviour
         ActivateMotor(crank, 0.0f, 0.0f);
     }
 
-    public void UpdateSpeed()
+    public void UpdateSpeed(float speed)
     {
-        currentSpeed = GetComponent<VariableController>().currentSpeed;
+        currentSpeed = speed;
     }
 
-    public void UpdateRotationSpeed()
+    public void UpdateRotationSpeed(float rotationSpeed)
     {
         currentRotationSpeed = GetComponent<RotationController>().currentRotationSpeed;
     }

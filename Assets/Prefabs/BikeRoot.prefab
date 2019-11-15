@@ -663,6 +663,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a0d806ed6252540950067ff46c5bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wheelColliders:
+  - {fileID: 2834684749285456573}
+  - {fileID: 3147521060773972250}
 --- !u!1 &3613096590221787199
 GameObject:
   m_ObjectHideFlags: 0

@@ -51,16 +51,16 @@ public class VariableController : MonoBehaviour
                 currentGrip = gripModified * rainModifier;
                 break;
         }
-        GetComponent<BikeUpdatePusher>().UpdateSpeed();
-        GetComponent<BikeUpdatePusher>().UpdateGrip();
+        GetComponent<BikeUpdatePusher>().UpdateSpeed(currentSpeed);
+        GetComponent<BikeUpdatePusher>().UpdateGrip(currentGrip);
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
         currentSpeed = speedModified;
         currentGrip = gripModified;
-        GetComponent<BikeUpdatePusher>().UpdateSpeed();
-        GetComponent<BikeUpdatePusher>().UpdateGrip();
+        GetComponent<BikeUpdatePusher>().UpdateSpeed(currentSpeed);
+        GetComponent<BikeUpdatePusher>().UpdateGrip(currentGrip);
     }
 
     public void UpdateValues()
@@ -79,9 +79,9 @@ public class VariableController : MonoBehaviour
         currentWeight = weightModified;
         currentGrip = gripModified;
 
-        GetComponent<BikeUpdatePusher>().UpdateSpeed();
-        GetComponent<BikeUpdatePusher>().UpdateGrip();
-        GetComponent<BikeUpdatePusher>().UpdateWeight();
+        GetComponent<BikeUpdatePusher>().UpdateSpeed(currentSpeed);
+        GetComponent<BikeUpdatePusher>().UpdateGrip(currentGrip);
+        GetComponent<BikeUpdatePusher>().UpdateWeight(currentWeight);
     }
 
     private void ModifierCalculator(BikeComponent[] components, ref float speed, ref float weight, ref float grip, ref float dry, ref float rain, ref float storm, ref float wind, float rainPenalty, float stormPenalty, float stockSpeed)

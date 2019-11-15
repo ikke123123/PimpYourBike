@@ -10,18 +10,24 @@ public class BikeUpdatePusher : MonoBehaviour
         GetComponent<VariableController>().UpdateValues();
         GetComponent<SpriteSelector>().UpdateSprites();
     }
-    public void UpdateSpeed()
+
+    public void UpdateSpeed(float speed)
     {
-        GetComponent<BikeController>().UpdateSpeed();
+        GetComponent<BikeController>().UpdateSpeed(speed);
     }
 
-    public void UpdateGrip()
+    public void UpdateRotation(float rotationSpeed)
     {
-        
+        GetComponent<BikeController>().UpdateRotationSpeed(rotationSpeed);
     }
 
-    public void UpdateWeight()
+    public void UpdateGrip(float grip)
     {
-        
+        GetComponent<GripController>().UpdateGrip(grip);
+    }
+
+    public void UpdateWeight(float weight)
+    {
+        GetComponent<WeightController>().UpdateWeight(weight);
     }
 }

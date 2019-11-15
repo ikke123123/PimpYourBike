@@ -97,6 +97,7 @@
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\VariableController.cs" />
     <Compile Include="Assets\Scripts\WeatherConstructor.cs" />
+    <Compile Include="Assets\WeightController.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Thomas/Documents/GitHub/PimpYourBike/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

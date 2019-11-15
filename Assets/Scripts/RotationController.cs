@@ -34,7 +34,7 @@ public class RotationController : MonoBehaviour
             timeCounter = 0.0f;
 
             currentRotationSpeed = (60 / lastFramerate) * rotationSpeed;
-            GetComponent<BikeController>().UpdateRotationSpeed();
+            GetComponent<BikeUpdatePusher>().UpdateRotation(currentRotationSpeed);
         }
     }
 }

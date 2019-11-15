@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class GripController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Collider2D[] wheelColliders;
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateGrip(float grip)
     {
-        
+        foreach (Collider2D wheelCollider in wheelColliders)
+        {
+            if (wheelCollider.sharedMaterial.friction != grip)
+            {
+                wheelCollider.sharedMaterial = new PhysicsMaterial2D
+                {
+                    friction = grip,
+                    bounciness = 0.1f
+                };
+            }
+        }
     }
 }

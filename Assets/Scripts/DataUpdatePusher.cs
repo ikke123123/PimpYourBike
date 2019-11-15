@@ -12,7 +12,7 @@ public class DataUpdatePusher : MonoBehaviour
         bikeRoot = GameObject.Find("BikeRoot");
         if (bikeRoot == null)
         {
-            Debug.LogError("Oopsie Woopsie, there is a reference problem");
+            Debug.LogError("Reference Problem");
         }
     }
 
