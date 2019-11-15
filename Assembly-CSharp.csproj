@@ -63,6 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\BikeUpdatePusher.cs" />
+    <Compile Include="Assets\GripController.cs" />
     <Compile Include="Assets\Scripts\BikeController.cs" />
     <Compile Include="Assets\Scripts\BikeControllerControlRoom.cs" />
     <Compile Include="Assets\Scripts\BikeSound.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="Assets\Scripts\Data\Levels.cs" />
     <Compile Include="Assets\Scripts\Data\ParallaxBackgrounds.cs" />
     <Compile Include="Assets\Scripts\DataArray.cs" />
+    <Compile Include="Assets\Scripts\DataUpdatePusher.cs" />
     <Compile Include="Assets\Scripts\FadeManager.cs" />
     <Compile Include="Assets\Scripts\FinishManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
@@ -82,16 +85,17 @@
     <Compile Include="Assets\Scripts\ParticleSpawner.cs" />
     <Compile Include="Assets\Scripts\ProximityPlay.cs" />
     <Compile Include="Assets\Scripts\randomGeneration.cs" />
+    <Compile Include="Assets\Scripts\RotationController.cs" />
     <Compile Include="Assets\Scripts\RotationLock.cs" />
     <Compile Include="Assets\Scripts\ScheneChange.cs" />
-    <Compile Include="Assets\Scripts\Selector.cs" />
     <Compile Include="Assets\Scripts\Showroom\StatisticsPrinter.cs" />
     <Compile Include="Assets\Scripts\SoundFrequency.cs" />
-    <Compile Include="Assets\Scripts\SpeedController.cs" />
+    <Compile Include="Assets\Scripts\SpriteSelector.cs" />
     <Compile Include="Assets\Scripts\Suicide.cs" />
     <Compile Include="Assets\Scripts\TimeManager.cs" />
     <Compile Include="Assets\Scripts\TimerManager.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
+    <Compile Include="Assets\Scripts\VariableController.cs" />
     <Compile Include="Assets\Scripts\WeatherConstructor.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Thomas/Documents/GitHub/PimpYourBike/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

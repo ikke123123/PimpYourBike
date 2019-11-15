@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Windows;
 using UnityEngine.SceneManagement;
 
@@ -13,12 +15,6 @@ public class DataArray : MonoBehaviour
     [SerializeField] public BikeComponent[] handles;
     [SerializeField] public BikeComponent[] pedals;
 
-    //Selected Components
-    [HideInInspector] public int wheelSelected;
-    [HideInInspector] public int frameSelected;
-    [HideInInspector] public int handleSelected;
-    [HideInInspector] public int pedalSelected;
-
     [Header("Weather Modifier")]
     [SerializeField, Range(-2, 0)] public int nominalRainPenalty;
     [SerializeField, Range(-2, 0)] public int nominalStormPenalty;
@@ -29,9 +25,22 @@ public class DataArray : MonoBehaviour
 
     [Header("Level and Time Goal")]
     [SerializeField] public Levels[] levels;
-    [HideInInspector] public string currentLevel;
-    [HideInInspector] public int currentLevelNum;
+    [SerializeField] public int currentLevel;
     [HideInInspector] public int absoluteTimeGoal;
+    [HideInInspector] private string currentSceneName;
+
+    //Selected Components
+    [HideInInspector] public BikeComponent wheelSelected;
+    [HideInInspector] public BikeComponent frameSelected;
+    [HideInInspector] public BikeComponent crankSelected;
+    [HideInInspector] public BikeComponent handleSelected;
+    [HideInInspector] public BikeComponent pedalSelected;
+
+    //Selected Components Identifier
+    [HideInInspector] private int wheelSelectedInt;
+    [HideInInspector] private int frameSelectedInt;
+    [HideInInspector] private int handleSelectedInt;
+    [HideInInspector] private int pedalSelectedInt;
 
     private void Start()
     {
@@ -39,28 +48,29 @@ public class DataArray : MonoBehaviour
 
         if (pull == true)
         {
-            wheelSelected = PlayerPrefs.GetInt("wheel");
-            handleSelected = PlayerPrefs.GetInt("handle");
-            frameSelected = PlayerPrefs.GetInt("frame");
-            pedalSelected = PlayerPrefs.GetInt("pedal");
+            wheelSelectedInt = PlayerPrefs.GetInt("wheel");
+            handleSelectedInt = PlayerPrefs.GetInt("handle");
+            frameSelectedInt = PlayerPrefs.GetInt("frame");
+            pedalSelectedInt = PlayerPrefs.GetInt("pedal");
         }
 
-        currentLevel = SceneManager.GetActiveScene().name;
+        wheelSelected = StoreSelectedComponent(wheelSelectedInt, wheels);
+        handleSelected = StoreSelectedComponent(handleSelectedInt, handles);
+        pedalSelected = StoreSelectedComponent(pedalSelectedInt, pedals);
+        frameSelected = StoreSelectedComponent(frameSelectedInt, frames);
+        crankSelected = StoreSelectedComponent(frameSelectedInt, cranks);
 
-        if (currentLevel == "Control Room")
+        currentSceneName = SceneManager.GetActiveScene().name;
+
+        if (LevelNameToNum(ref currentLevel, currentSceneName))
+        {
+            absoluteTimeGoal = levels[currentLevel].absoluteTimeGoal;
+        }
+
+        if (currentSceneName == "Control Room")
         {
             PlayerPrefs.SetString("hasVisitedControlRoom", "true");
             PlayerPrefs.Save();
-        }
-
-        for (int i = 0; i < levels.Length; i++)
-        {
-            if (GetComponent<DataArray>().currentLevel == levels[i].scene.name)
-            {
-                currentLevelNum = i;
-                absoluteTimeGoal = levels[i].absoluteTimeGoal;
-                break;
-            }
         }
     }
 
@@ -68,10 +78,10 @@ public class DataArray : MonoBehaviour
     {
         if (push == true)
         {
-            PlayerPrefs.SetInt("wheel", wheelSelected);
-            PlayerPrefs.SetInt("handle", handleSelected);
-            PlayerPrefs.SetInt("frame", frameSelected);
-            PlayerPrefs.SetInt("pedal", pedalSelected);
+            PlayerPrefs.SetInt("wheel", wheelSelectedInt);
+            PlayerPrefs.SetInt("handle", handleSelectedInt);
+            PlayerPrefs.SetInt("frame", frameSelectedInt);
+            PlayerPrefs.SetInt("pedal", pedalSelectedInt);
 
             PlayerPrefs.Save();
         }
@@ -79,45 +89,64 @@ public class DataArray : MonoBehaviour
 
     public void WheelButton(bool up)
     {
-        if (up) {
-            NextSelection(ref wheelSelected, wheels.Length);
-        } else {
-            PrevSelection(ref wheelSelected, wheels.Length);
+        if (up)
+        {
+            NextSelection(ref wheelSelectedInt, wheels.Length);
         }
+        else
+        {
+            PrevSelection(ref wheelSelectedInt, wheels.Length);
+        }
+        wheelSelected = StoreSelectedComponent(wheelSelectedInt, wheels);
+        PushBikeUpdate();
     }
 
     public void HandleButton(bool up)
     {
         if (up)
         {
-            NextSelection(ref handleSelected, handles.Length);
-        } else {
-            PrevSelection(ref handleSelected, handles.Length);
+            NextSelection(ref handleSelectedInt, handles.Length);
         }
+        else
+        {
+            PrevSelection(ref handleSelectedInt, handles.Length);
+        }
+        handleSelected = StoreSelectedComponent(handleSelectedInt, handles);
+        PushBikeUpdate();
     }
 
     public void PedalButton(bool up)
     {
         if (up)
         {
-            NextSelection(ref pedalSelected, pedals.Length);
+            NextSelection(ref pedalSelectedInt, pedals.Length);
         }
         else
         {
-            PrevSelection(ref pedalSelected, pedals.Length);
+            PrevSelection(ref pedalSelectedInt, pedals.Length);
         }
+        pedalSelected = StoreSelectedComponent(pedalSelectedInt, pedals);
+        PushBikeUpdate();
     }
 
     public void FrameButton(bool up)
     {
         if (up)
         {
-            NextSelection(ref frameSelected, frames.Length);
+            NextSelection(ref frameSelectedInt, frames.Length);
         }
         else
         {
-            PrevSelection(ref frameSelected, frames.Length);
+            PrevSelection(ref frameSelectedInt, frames.Length);
         }
+        frameSelected = StoreSelectedComponent(frameSelectedInt, frames);
+        crankSelected = StoreSelectedComponent(frameSelectedInt, cranks);
+        PushBikeUpdate();
+    }
+
+    private void PushBikeUpdate()
+    {
+        GetComponent<DataUpdatePusher>().BikeUpdate();
     }
 
     private void NextSelection(ref int selection, int max)
@@ -136,5 +165,21 @@ public class DataArray : MonoBehaviour
         {
             selection = max - 1;
         }
+    }
+
+    private BikeComponent StoreSelectedComponent(int selected, BikeComponent[] origin)
+    {
+        return origin[selected];
+    }
+
+    private bool LevelNameToNum(ref int target, string levelName)
+    {
+        if (Int32.TryParse(levelName.Replace("Level ", ""), out target) && levelName.IndexOf("Level ") != -1)
+        {
+            target--;
+            return true;
+        }
+        target--;
+        return false;
     }
 }

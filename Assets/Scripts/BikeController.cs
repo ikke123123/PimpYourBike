@@ -5,167 +5,92 @@ using UnityEngine.SceneManagement;
 
 public class BikeController : MonoBehaviour
 {
-    JointMotor2D motorBack;
-    JointMotor2D motorCrank;
-
     [Header("Wheel Joints")]
-    public WheelJoint2D backWheel;
-    public WheelJoint2D crank;
+    [SerializeField] private WheelJoint2D backWheel;
+    [SerializeField] private WheelJoint2D crank;
 
     [Header("Rigidbodies")]
-    public Rigidbody2D backRB;
-    public Rigidbody2D frontRB;
+    [SerializeField] private Rigidbody2D[] wheelRB;
 
     [Header("Movement")]
-    [SerializeField] private float speed = 0;
-    [SerializeField] private float torque = 0;
-    [SerializeField] private float rotationSpeed = 0;
+    [SerializeField, Range(100, 500)] private int torque;
+    [HideInInspector] private float currentSpeed;
+    [HideInInspector] private float currentRotationSpeed;
 
-    public float speedCrank;
-    public float torqueCrank;
+    [Header("Crank")]
+    [SerializeField, Range(10, 200)] private int speedCrank;
+    [SerializeField, Range(5, 50)] private int torqueCrank;
 
-    public float windSpeed;
-    public float windFrequency;
+    //Various
+    [HideInInspector] private Rigidbody2D rigidBody;
 
-    private Rigidbody2D rigidBody;
+    private void Start()
+    {
+        rigidBody = gameObject.GetComponent<Rigidbody2D>();
+        UpdateSpeed();
+        UpdateRotationSpeed();
+    }
 
-    public bool isInRain = false;
-    public bool isInStorm = false;
-    public bool isInWind = false;
+    private void Update()
+    {
+        Throttle(Input.GetAxis("Horizontal"));
+    }
 
-    //private int windGustTimer;
+    public void Throttle(float input)
+    {
+        if (input != 0)
+        {
+            input = Mathf.Clamp(input * -1.0f, -1.0f, 1.0f);
 
-    //private void Start()
-    //{
-    //    gameManager = GameObject.Find("Game Manager");
-    //    rb = gameObject.GetComponent<Rigidbody2D>();
+            rigidBody.AddTorque(currentRotationSpeed * -input);
 
-    //    speedModifier = gameManager.GetComponent<DataArray>().speedModifier;
-    //    weightModifier = gameManager.GetComponent<DataArray>().weightModifier;
-    //    rb.mass += weightModifier;
+            if (ActivateBrake(wheelRB, rigidBody.velocity.x, input, 0.5f) == false)
+            {
+                ActivateMotor(backWheel, currentSpeed * input, torque);
+                ActivateMotor(crank, speedCrank * input, torqueCrank);
+            }
+            return;
+        }
+        ActivateMotor(backWheel, 0.0f, 0.0f);
+        ActivateMotor(crank, 0.0f, 0.0f);
+    }
 
-    //    stormActual = (speed + speedModifier) * gameManager.GetComponent<DataArray>().stormModifier;
-    //    rainActual = (speed + speedModifier) * gameManager.GetComponent<DataArray>().rainModifier;
-    //    windActual = (speed + speedModifier) * gameManager.GetComponent<DataArray>().windModifier;
-    //    dryActual = (speed + speedModifier) * gameManager.GetComponent<DataArray>().dryModifier;
-    //}
+    public void UpdateSpeed()
+    {
+        currentSpeed = GetComponent<VariableController>().currentSpeed;
+    }
 
-    //void Update()
-    //{
-    //    float speedActual;
-    //    FreezeRotation(false);
+    public void UpdateRotationSpeed()
+    {
+        currentRotationSpeed = GetComponent<RotationController>().currentRotationSpeed;
+    }
 
-    //    if (isInStorm)
-    //    {
-    //        speedActual = stormActual;
-    //        WindGust();
-    //    } else if (isInRain)
-    //    {
-    //        speedActual = rainActual;
-    //    } else if (isInWind)
-    //    {
-    //        speedActual = windActual;
-    //        WindGust();
-    //    } else
-    //    {
-    //        speedActual = dryActual;
-    //    }
+    private bool ActivateBrake(Rigidbody2D[] rigidBodies, float velocity, float axisInput, float speedSwitch)
+    {
+        if ((axisInput > 0 && velocity < speedSwitch) || (axisInput < 0 && velocity > -speedSwitch))
+        {
+            FreezeRotation(rigidBodies, false);
+            return false;
+        }
+        FreezeRotation(rigidBodies, true);
+        return true;
+    }
 
-    //    if (Input.GetAxisRaw("Horizontal") < 0)
-    //    {
-    //        if (rb.velocity.x < 0.5)
-    //        {
-    //            Motor(speedActual, torque, speedCrank, torqueCrank, -rotationSpeed);
-    //        }
-    //        else
-    //        {
-    //            FreezeRotation(true);
+    private void ActivateMotor(WheelJoint2D motor, float speed, float torque)
+    {
+        JointMotor2D tempMotor = new JointMotor2D
+        {
+            motorSpeed = speed,
+            maxMotorTorque = torque
+        };
+        motor.motor = tempMotor;
+    }
 
-    //            Motor(0f, 0f, 0f, 0f, -rotationSpeed);
-    //        }
-    //    }
-    //    else if (Input.GetAxisRaw("Horizontal") > 0)
-    //    {
-    //        if (rb.velocity.x > -0.5)
-    //        {
-    //            Motor(-speedActual, torque, -speedCrank, torqueCrank, rotationSpeed);
-    //        }
-    //        else
-    //        {
-    //            FreezeRotation(true);
-
-    //            Motor(0f, 0f, 0f, 0f, rotationSpeed);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Motor(0f, 0f, 0f, 0f, 0f);
-    //    }
-    //}
-
-    //public void FreezeRotation(bool Freeze)
-    //{
-    //    frontRB.freezeRotation = Freeze;
-    //    backRB.freezeRotation = Freeze;
-    //}
-
-    //public void Motor(float wheelSpeed, float motorTorque, float crankSpeed, float crankTorque, float rotation)
-    //{
-    //    motorBack.motorSpeed = wheelSpeed;
-    //    motorBack.maxMotorTorque = motorTorque;
-    //    backWheel.motor = motorBack;
-
-    //    motorCrank.motorSpeed = crankSpeed;
-    //    motorCrank.maxMotorTorque = crankTorque;
-    //    crank.motor = motorCrank;
-
-    //    rb.AddTorque(rotation);
-    //}
-
-    //public void WindGust()
-    //{
-    //    if (Time.time >= windGustTimer)
-    //    {
-    //        rb.AddForce(new Vector2(-windSpeed, 0.0f));
-    //        windGustTimer = Mathf.RoundToInt(Time.time + windFrequency);
-    //    }
-    //}
-
-    //public void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.tag == "Bridge")
-    //    {
-    //        gameManager.GetComponent<GameManager>().Respawn();
-    //    }
-    //    if (collision.tag == "Wind")
-    //    {
-    //        windGustTimer = 0;
-    //        isInWind = true;
-    //    }
-    //    if (collision.tag == "Rain")
-    //    {
-    //        isInRain = true;
-    //    }
-    //    if (collision.tag == "Storm")
-    //    {
-    //        windGustTimer = 0;
-    //        isInStorm = true;
-    //    }
-    //}
-
-    //public void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision.tag == "Wind")
-    //    {
-    //        isInWind = false;
-    //    }
-    //    if (collision.tag == "Rain")
-    //    {
-    //        isInRain = false;
-    //    }
-    //    if (collision.tag == "Storm")
-    //    {
-    //        isInStorm = false;
-    //    }
-    //}
+    private void FreezeRotation(Rigidbody2D[] rigidbodies, bool freeze)
+    {
+        foreach (Rigidbody2D rb in rigidbodies)
+        {
+            rb.freezeRotation = freeze;
+        }
+    }
 }

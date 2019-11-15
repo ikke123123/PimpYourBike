@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     public void Respawn()
     {
-        SceneManager.LoadScene(gameObject.GetComponent<DataArray>().currentLevel, LoadSceneMode.Single);
+        //SceneManager.LoadScene(gameObject.GetComponent<DataArray>().currentLevel, LoadSceneMode.Single);
     }
 
     public void QuitGame()

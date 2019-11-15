@@ -22,7 +22,6 @@ public class Parallax : MonoBehaviour
 
         for (int i = 0; i < parallaxGameObjects.Length; i++)
         {
-            Debug.Log("One");
             parallaxGameObjects[i] = Instantiate(parallaxObjects[i].parallaxObject);
             parallaxGameObjects[i].transform.SetParent(gameObject.transform);
         }

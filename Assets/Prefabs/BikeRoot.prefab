@@ -379,8 +379,11 @@ GameObject:
   - component: {fileID: 3634639969895425315}
   - component: {fileID: 9006736170059815592}
   - component: {fileID: 3389604227725482080}
+  - component: {fileID: 4971758757411032622}
   - component: {fileID: 3182507343083296315}
   - component: {fileID: 4465897048583983340}
+  - component: {fileID: 6556969200095783597}
+  - component: {fileID: 9169580574933105733}
   m_Layer: 0
   m_Name: BikeRoot
   m_TagString: Untagged
@@ -514,20 +517,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceef1fb148e4b8241be3d7597d753e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backWheel: {fileID: 0}
-  crank: {fileID: 0}
-  backRB: {fileID: 0}
-  frontRB: {fileID: 0}
-  speed: 0
-  torque: 0
-  rotationSpeed: 0
-  speedCrank: 0
-  torqueCrank: 0
-  windSpeed: 0
-  windFrequency: 0
-  isInRain: 0
-  isInStorm: 0
-  isInWind: 0
+  backWheel: {fileID: 3952088204877907259}
+  crank: {fileID: 3634639969895425315}
+  wheelRB:
+  - {fileID: 3182507343355452958}
+  - {fileID: 3182507343915940912}
+  torque: 300
+  speedCrank: 120
+  torqueCrank: 30
 --- !u!114 &3389604227725482080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,6 +539,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nominalSpeed: 800
   currentSpeed: 0
+  currentWeight: 0
+  currentGrip: 0
+--- !u!114 &4971758757411032622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3182507343083296304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec482f7a7acb79147ae4457c6e332e13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refreshTime: 1.5
+  lastFramerate: 60
+  rotationSpeed: 160
+  currentRotationSpeed: 0
 --- !u!114 &3182507343083296315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,28 +569,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569ce24e1fb81944f8995b1cb4f5d2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pedalObject: {fileID: 1060267739686281478}
-  frameObject: {fileID: 3613096590221787199}
-  crankObject: {fileID: 9114720560674297315}
-  wheelBackObject: {fileID: 2852704783009746435}
-  wheelFrontObject: {fileID: 1556182043461741745}
-  handleObject: {fileID: 5246575569788410607}
-  pedalRenderer: {fileID: 0}
-  frameRenderer: {fileID: 0}
-  crankRenderer: {fileID: 0}
-  wheelBackRenderer: {fileID: 0}
-  wheelFrontRenderer: {fileID: 0}
-  handleRenderer: {fileID: 0}
-  moveObjectShowroom: 0
-  reloadSelected: 0
-  oneWheel: 0
-  speedModifier: 0
-  weightModifier: 0
-  gripModifier: 0
-  dryModifier: 0
-  rainModifier: 0
-  stormModifier: 0
-  windModifier: 0
+  wheelRenderers:
+  - {fileID: 3182507343138384482}
+  - {fileID: 3182507343517560448}
+  frameRenderers: {fileID: 3182507342677135530}
+  crankRenderers: {fileID: 3182507344578251598}
+  handleRenderers: {fileID: 3182507342930037044}
+  pedalRenderers: {fileID: 3182507343771074755}
 --- !u!114 &4465897048583983340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,6 +639,30 @@ MonoBehaviour:
     rampOffStep: 0
     rampOff: 0
     disabled: 0
+--- !u!114 &6556969200095783597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3182507343083296304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ef7653a7677234fb2c3642e582b224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9169580574933105733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3182507343083296304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a0d806ed6252540950067ff46c5bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3613096590221787199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1629,15 +1653,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc6d41d77dfa1434f952a5d922b2e6cb, type: 3}
---- !u!82 &6216100757523182922 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8816940604435056114, guid: cc6d41d77dfa1434f952a5d922b2e6cb,
-    type: 3}
-  m_PrefabInstance: {fileID: 3177314240036171960}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4532893488851917475 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1364596094567606811, guid: cc6d41d77dfa1434f952a5d922b2e6cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3177314240036171960}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &6216100757523182922 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8816940604435056114, guid: cc6d41d77dfa1434f952a5d922b2e6cb,
     type: 3}
   m_PrefabInstance: {fileID: 3177314240036171960}
   m_PrefabAsset: {fileID: 0}
