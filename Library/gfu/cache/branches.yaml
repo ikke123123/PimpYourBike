@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cacheType: 2
-  lastUpdatedAtString: 2019-11-13T12:45:52.732+01:00
-  initializedAtString: 2019-11-13T12:45:52.722+01:00
-  localBranches: []
+  lastUpdatedAtString: 2019-11-15T18:08:13.773+01:00
+  initializedAtString: 2019-11-15T18:08:13.760+01:00
+  localBranches:
+  - name: master
+    tracking: origin/master
   remoteBranches:
-  - name: origin/master
+  - name: origin/HEAD
     tracking: '[None]'
   remotes:
   - name: origin
@@ -28,17 +30,23 @@ MonoBehaviour:
     function: 0
     token: 
   localConfigBranches:
-    keys: []
-    values: []
+    keys:
+    - master
+    values:
+    - name: master
+      remote:
+        name: origin
+        url: https://github.com/ikke123123/PimpYourBike.git
+      trackingBranch: master
   remoteConfigBranches:
     keys:
     - origin
     subKeys:
     - Values:
-      - master
+      - HEAD
     subKeyValues:
     - Values:
-      - name: master
+      - name: HEAD
         remote:
           name: origin
           url: https://github.com/ikke123123/PimpYourBike.git

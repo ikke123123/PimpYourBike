@@ -1285,22 +1285,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569ce24e1fb81944f8995b1cb4f5d2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pedalObject: {fileID: 801095339}
-  frameObject: {fileID: 504455367}
-  crankObject: {fileID: 7819762}
-  wheelBackObject: {fileID: 1894087136}
-  wheelFrontObject: {fileID: 0}
-  handleObject: {fileID: 1328546794}
-  moveObjectShowroom: 1
-  reloadSelected: 1
-  oneWheel: 1
-  speedModifier: 0
-  weightModifier: 0
-  gripModifier: 0
-  dryModifier: 0
-  rainModifier: 0
-  stormModifier: 0
-  windModifier: 0
+  wheelRenderers: []
+  frameRenderers: {fileID: 0}
+  crankRenderers: {fileID: 0}
+  handleRenderers: {fileID: 0}
+  pedalRenderers: {fileID: 0}
 --- !u!4 &485856643
 Transform:
   m_ObjectHideFlags: 0
@@ -3617,16 +3606,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
-    - target: {fileID: 624832346935751433, guid: 60372ac1510601c4690fefcf57b9a4d6,
-        type: 3}
-      propertyPath: push
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 624832346935751433, guid: 60372ac1510601c4690fefcf57b9a4d6,
-        type: 3}
-      propertyPath: pull
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 624832346935751432, guid: 60372ac1510601c4690fefcf57b9a4d6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3682,6 +3661,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 624832346935751433, guid: 60372ac1510601c4690fefcf57b9a4d6,
+        type: 3}
+      propertyPath: push
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 624832346935751433, guid: 60372ac1510601c4690fefcf57b9a4d6,
+        type: 3}
+      propertyPath: pull
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5195247749645407145, guid: 60372ac1510601c4690fefcf57b9a4d6,
+        type: 3}
+      propertyPath: bikeToPushTo.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5195247749645407145, guid: 60372ac1510601c4690fefcf57b9a4d6,
+        type: 3}
+      propertyPath: bikeToPushTo.Array.data[0]
+      value: 
+      objectReference: {fileID: 3316766122146151298}
+    - target: {fileID: 5195247749645407145, guid: 60372ac1510601c4690fefcf57b9a4d6,
+        type: 3}
+      propertyPath: bikeToPushTo.Array.data[1]
+      value: 
+      objectReference: {fileID: 485856641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60372ac1510601c4690fefcf57b9a4d6, type: 3}
 --- !u!1 &3316766122146151298
@@ -3729,22 +3733,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569ce24e1fb81944f8995b1cb4f5d2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pedalObject: {fileID: 3316766123152364638}
-  frameObject: {fileID: 3316766123762241681}
-  crankObject: {fileID: 3316766123202434912}
-  wheelBackObject: {fileID: 3316766123983470148}
-  wheelFrontObject: {fileID: 3316766123250067234}
-  handleObject: {fileID: 3316766123206127198}
-  moveObjectShowroom: 0
-  reloadSelected: 1
-  oneWheel: 0
-  speedModifier: 0
-  weightModifier: 0
-  gripModifier: 0
-  dryModifier: 0
-  rainModifier: 0
-  stormModifier: 0
-  windModifier: 0
+  wheelRenderers:
+  - {fileID: 3316766123983470151}
+  - {fileID: 3316766123250067237}
+  frameRenderers: {fileID: 3316766123762241683}
+  crankRenderers: {fileID: 3316766123202434914}
+  handleRenderers: {fileID: 3316766123206127169}
+  pedalRenderers: {fileID: 3316766123152364608}
 --- !u!212 &3316766123152364608
 SpriteRenderer:
   m_ObjectHideFlags: 0

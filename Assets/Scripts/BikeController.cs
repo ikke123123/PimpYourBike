@@ -60,7 +60,7 @@ public class BikeController : MonoBehaviour
 
     public void UpdateRotationSpeed(float rotationSpeed)
     {
-        currentRotationSpeed = GetComponent<RotationController>().currentRotationSpeed;
+        currentRotationSpeed = rotationSpeed;
     }
 
     private bool ActivateBrake(Rigidbody2D[] rigidBodies, float velocity, float axisInput, float speedSwitch)

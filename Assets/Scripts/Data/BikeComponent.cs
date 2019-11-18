@@ -6,6 +6,7 @@ using UnityEngine;
 public class BikeComponent : ScriptableObject
 {
     [SerializeField] public Sprite image;
+    [SerializeField] public Sprite altImage;
     [SerializeField, Range(1, 4)] public int speed;
     [SerializeField, Range(1, 4)] public int grip;
     [SerializeField, Range(1, 4)] public int weight;

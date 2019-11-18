@@ -5,19 +5,25 @@ using UnityEngine.Events;
 
 public class DataUpdatePusher : MonoBehaviour
 {
-    [HideInInspector] private GameObject bikeRoot;
+    [SerializeField] private GameObject[] bikeToPushTo;
 
     private void Start()
     {
-        bikeRoot = GameObject.Find("BikeRoot");
-        if (bikeRoot == null)
+        for (int i = 0; i < bikeToPushTo.Length; i++)
         {
-            Debug.LogError("Reference Problem");
+            if (bikeToPushTo[i] == null)
+            {
+                Debug.LogError("Reference Error in DataUpdatePusher");
+                return;
+            }
         }
     }
 
     public void BikeUpdate()
     {
-        bikeRoot.GetComponent<BikeUpdatePusher>().DataUpdatePuller();
+        foreach (GameObject bikeObject in bikeToPushTo)
+        {
+            bikeObject.GetComponent<BikeUpdatePusher>().DataUpdatePuller();
+        }
     }
 }

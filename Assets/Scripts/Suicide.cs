@@ -9,6 +9,7 @@ public class Suicide : MonoBehaviour
         if (transform.position.y <= -20)
         {
             Destroy(gameObject);
+            Debug.Log("SUICIDE!");
         }
     }
 }

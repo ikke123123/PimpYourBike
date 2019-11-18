@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: Minimal Frame
   m_EditorClassIdentifier: 
   image: {fileID: 21300000, guid: e0d29f1324773df4ea98888df9600a8b, type: 3}
+  altImage: {fileID: 21300000, guid: 285b0f6ad613c334ea4e09ee376c89b9, type: 3}
   speed: 4
   grip: 2
   weight: 4
+  dryModifier: 0
+  rainModifier: 0
+  stormModifier: 0
+  windModifier: 0

@@ -379,11 +379,9 @@ GameObject:
   - component: {fileID: 3634639969895425315}
   - component: {fileID: 9006736170059815592}
   - component: {fileID: 3389604227725482080}
-  - component: {fileID: 4971758757411032622}
   - component: {fileID: 3182507343083296315}
   - component: {fileID: 4465897048583983340}
   - component: {fileID: 6556969200095783597}
-  - component: {fileID: 9169580574933105733}
   m_Layer: 0
   m_Name: BikeRoot
   m_TagString: Untagged
@@ -538,24 +536,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nominalSpeed: 800
+  rotationSpeed: 160
+  refreshTime: 3
+  lastFramerate: 60
+  wheelColliders:
+  - {fileID: 2834684749285456573}
+  - {fileID: 3147521060773972250}
+  wheelRenderers:
+  - {fileID: 3182507343138384482}
+  - {fileID: 3182507343517560448}
+  frameRenderer: {fileID: 3182507342677135530}
+  crankRenderer: {fileID: 3182507344578251598}
+  handleRenderer: {fileID: 3182507342930037044}
+  pedalRenderer: {fileID: 3182507343771074755}
   currentSpeed: 0
   currentWeight: 0
   currentGrip: 0
---- !u!114 &4971758757411032622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3182507343083296304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec482f7a7acb79147ae4457c6e332e13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  refreshTime: 1.5
-  lastFramerate: 60
-  rotationSpeed: 160
   currentRotationSpeed: 0
 --- !u!114 &3182507343083296315
 MonoBehaviour:
@@ -569,13 +565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569ce24e1fb81944f8995b1cb4f5d2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wheelRenderers:
-  - {fileID: 3182507343138384482}
-  - {fileID: 3182507343517560448}
-  frameRenderers: {fileID: 3182507342677135530}
-  crankRenderers: {fileID: 3182507344578251598}
-  handleRenderers: {fileID: 3182507342930037044}
-  pedalRenderers: {fileID: 3182507343771074755}
 --- !u!114 &4465897048583983340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,21 +640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ef7653a7677234fb2c3642e582b224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9169580574933105733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3182507343083296304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64a0d806ed6252540950067ff46c5bd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wheelColliders:
-  - {fileID: 2834684749285456573}
-  - {fileID: 3147521060773972250}
 --- !u!1 &3613096590221787199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1656,15 +1630,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc6d41d77dfa1434f952a5d922b2e6cb, type: 3}
---- !u!4 &4532893488851917475 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1364596094567606811, guid: cc6d41d77dfa1434f952a5d922b2e6cb,
-    type: 3}
-  m_PrefabInstance: {fileID: 3177314240036171960}
-  m_PrefabAsset: {fileID: 0}
 --- !u!82 &6216100757523182922 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 8816940604435056114, guid: cc6d41d77dfa1434f952a5d922b2e6cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3177314240036171960}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4532893488851917475 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1364596094567606811, guid: cc6d41d77dfa1434f952a5d922b2e6cb,
     type: 3}
   m_PrefabInstance: {fileID: 3177314240036171960}
   m_PrefabAsset: {fileID: 0}
