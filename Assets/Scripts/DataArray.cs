@@ -11,7 +11,6 @@ public class DataArray : MonoBehaviour
     [Header("Bike Components")]
     [SerializeField] public BikeComponent[] wheels;
     [SerializeField] public BikeComponent[] frames;
-    [SerializeField] public BikeComponent[] cranks;
     [SerializeField] public BikeComponent[] handles;
     [SerializeField] public BikeComponent[] pedals;
 
@@ -32,7 +31,6 @@ public class DataArray : MonoBehaviour
     //Selected Components
     [HideInInspector] public BikeComponent wheelSelected;
     [HideInInspector] public BikeComponent frameSelected;
-    [HideInInspector] public BikeComponent crankSelected;
     [HideInInspector] public BikeComponent handleSelected;
     [HideInInspector] public BikeComponent pedalSelected;
 
@@ -58,7 +56,6 @@ public class DataArray : MonoBehaviour
         handleSelected = StoreSelectedComponent(handleSelectedInt, handles);
         pedalSelected = StoreSelectedComponent(pedalSelectedInt, pedals);
         frameSelected = StoreSelectedComponent(frameSelectedInt, frames);
-        crankSelected = StoreSelectedComponent(frameSelectedInt, cranks);
 
         currentSceneName = SceneManager.GetActiveScene().name;
 
@@ -140,7 +137,6 @@ public class DataArray : MonoBehaviour
             PrevSelection(ref frameSelectedInt, frames.Length);
         }
         frameSelected = StoreSelectedComponent(frameSelectedInt, frames);
-        crankSelected = StoreSelectedComponent(frameSelectedInt, cranks);
         PushBikeUpdate();
     }
 
@@ -174,8 +170,9 @@ public class DataArray : MonoBehaviour
 
     private bool LevelNameToNum(ref int target, string levelName)
     {
-        if (Int32.TryParse(levelName.Replace("Level ", ""), out target) && levelName.IndexOf("Level ") != -1)
+        if (levelName.IndexOf("Level ") != -1)
         {
+            target = Convert.ToInt32(levelName.Replace("Level ", ""));
             target--;
             return true;
         }

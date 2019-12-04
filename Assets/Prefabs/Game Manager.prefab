@@ -57,11 +57,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ecd3687853c60cc41ba2d919ba946201, type: 2}
   - {fileID: 11400000, guid: 5032371cbd65ef540b464e0f837c0496, type: 2}
   - {fileID: 11400000, guid: 2fe5578cfe9ed4742b7a3ae040fe4935, type: 2}
-  cranks:
-  - {fileID: 11400000, guid: 2c5c9b4ed7c1c824695438495da44701, type: 2}
-  - {fileID: 11400000, guid: 70ace35e887a15843980cd390d23b013, type: 2}
-  - {fileID: 11400000, guid: 4c37e4740b905664bbd98735c33b937f, type: 2}
-  - {fileID: 11400000, guid: b39992bfa5ca10f40a8067aa0bd97664, type: 2}
   handles:
   - {fileID: 11400000, guid: 15d2945c8babbd143bd0872914272257, type: 2}
   - {fileID: 11400000, guid: 85b52f232873d8644a00c5f3f724aa75, type: 2}
@@ -82,7 +77,6 @@ MonoBehaviour:
   absoluteTimeGoal: 0
   wheelSelected: {fileID: 0}
   frameSelected: {fileID: 0}
-  crankSelected: {fileID: 0}
   handleSelected: {fileID: 0}
   pedalSelected: {fileID: 0}
 --- !u!114 &2579250613646785198
@@ -143,8 +137,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df64fd08e18da34d8daa56607f4e419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bikeChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  bikeToPushTo:
+  - {fileID: 0}

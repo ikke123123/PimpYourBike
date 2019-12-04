@@ -4,19 +4,42 @@ using UnityEngine;
 
 public class ParticleSpawner : MonoBehaviour
 {
-    public GameObject[] rain;
-    public float frequency;
+    [Header("Rain Particles")]
+    [SerializeField] private GameObject[] rain;
 
-    private float timer;
+    [Header("Spawn Time")]
+    [SerializeField] private float spawnFrequency;
+    [SerializeField] private int activationDistance;
 
-    void Update()
+    //Sizes
+    [HideInInspector] private float leftBorder;
+    [HideInInspector] private float rightBorder;
+
+    //Various
+    [HideInInspector] private float timer;
+    [HideInInspector] private Transform bikeRootTransform;
+
+    private void Start()
     {
-        if (timer - Time.time <= 0)
+        bikeRootTransform = GameObject.Find("BikeRoot").GetComponent<Transform>();
+        leftBorder = transform.position.x - gameObject.GetComponent<BoxCollider2D>().size.x * 0.5f;
+        rightBorder = transform.position.x + gameObject.GetComponent<BoxCollider2D>().size.x * 0.5f;
+    }
+
+    private void FixedUpdate()
+    {
+        float bikeX = bikeRootTransform.position.x;
+
+        if (bikeX >= leftBorder - activationDistance && bikeX <= rightBorder + activationDistance)
         {
-            GameObject spawnedObject;
-            timer = Time.time + frequency;
-            spawnedObject = Instantiate(rain[Mathf.RoundToInt(Random.Range(0.49f, rain.Length) - 0.51f)]);
-            spawnedObject.transform.position = new Vector3(Random.Range(transform.position.x - gameObject.GetComponent<BoxCollider2D>().size.x * 0.5f, transform.position.x + gameObject.GetComponent<BoxCollider2D>().size.x * 0.5f), 40f, 0f);
+            if (timer <= Time.time)
+            {
+                timer = Time.time + spawnFrequency;
+
+                GameObject spawnedObject;
+                spawnedObject = Instantiate(rain[Mathf.RoundToInt(Random.Range(0, rain.Length))]);
+                spawnedObject.transform.position = new Vector3(Random.Range(leftBorder, rightBorder), 25f, 0f);
+            }
         }
     }
 }

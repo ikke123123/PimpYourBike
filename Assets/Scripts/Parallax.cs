@@ -14,20 +14,23 @@ public class Parallax : MonoBehaviour
     //Vector3 of last cam position
     [HideInInspector] private Vector3 lastCamPos;
 
+    [HideInInspector] private SpriteRenderer[] parallaxRenderers;
+
     void Start()
     {
         lastCamPos = cam.GetComponent<Transform>().position;
 
         parallaxGameObjects = new GameObject[parallaxObjects.Length];
+        parallaxRenderers = new SpriteRenderer[parallaxObjects.Length];
 
         for (int i = 0; i < parallaxGameObjects.Length; i++)
         {
             parallaxGameObjects[i] = Instantiate(parallaxObjects[i].parallaxObject);
-            parallaxGameObjects[i].transform.SetParent(gameObject.transform);
+            parallaxRenderers[i] = parallaxGameObjects[i].GetComponent<SpriteRenderer>();
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Vector3 currentCamPos = cam.GetComponent<Transform>().position;
         Vector3 camDeltaPos = lastCamPos - currentCamPos;
@@ -36,18 +39,20 @@ public class Parallax : MonoBehaviour
         {
             for (int i = 0; i < parallaxGameObjects.Length; i++)
             {
-                Vector3 currentObjectPos = parallaxGameObjects[i].GetComponent<Transform>().position;
+                Transform objectTransform = parallaxGameObjects[i].GetComponent<Transform>();
+                Vector3 currentObjectPos = objectTransform.position;
 
-                currentObjectPos += new Vector3(camDeltaPos.x * parallaxObjects[i].hSpeed, camDeltaPos.y * parallaxObjects[i].vSpeed, 0f);
+                Vector3 newObjectPos = new Vector3(camDeltaPos.x * parallaxObjects[i].hSpeed + parallaxObjects[i].constantSpeed, camDeltaPos.y * parallaxObjects[i].vSpeed, 0f) + currentObjectPos;
 
-                //float currentObjectDeltaX = Mathf.Clamp(-1.0f * (currentCamPos.x / (0.5f * parallaxGameObjects[i].GetComponent<SpriteRenderer>().bounds.size.x)), -1.0f, 1.0f);
+                if (currentCamPos.x >= currentObjectPos.x + parallaxRenderers[i].bounds.size.x * 0.5f)
+                {
+                    newObjectPos = new Vector3(newObjectPos.x + parallaxRenderers[i].bounds.size.x, newObjectPos.y, newObjectPos.z);
+                } else if (currentCamPos.x <= currentObjectPos.x - parallaxRenderers[i].bounds.size.x * 0.5f)
+                {
+                    newObjectPos = new Vector3(newObjectPos.x - parallaxRenderers[i].bounds.size.x, newObjectPos.y, newObjectPos.z);
+                }
 
-                //if (currentObjectDeltaX == 1.0f)
-                //{
-                //    currentObjectPos = new Vector3(currentObjectPos.x + (parallaxGameObjects[i].GetComponent<SpriteRenderer>().bounds.size.x * currentObjectDeltaX), currentObjectPos.y, currentObjectPos.z);
-                //}
-
-                parallaxGameObjects[i].GetComponent<Transform>().position = currentObjectPos;
+                objectTransform.position = newObjectPos;
             }
         }
         lastCamPos = currentCamPos;

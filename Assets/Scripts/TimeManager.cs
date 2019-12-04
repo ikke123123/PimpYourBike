@@ -27,18 +27,21 @@ public class TimeManager : MonoBehaviour
     {
         absoluteTimeGoal = GetComponent<DataArray>().absoluteTimeGoal;
 
-        levelHighscore = PlayerPrefs.GetInt("Highscore" + gameObject.GetComponent<DataArray>().currentLevel);
+        ToSeconds(ref timeGoalSeconds, absoluteTimeGoal);
+        ToMinutes(ref timeGoalMinutes, absoluteTimeGoal);
 
-        timeGoalSeconds = 0;
-        timeGoalMinutes = 0;
+        levelHighscore = PlayerPrefs.GetInt("Highscore" + gameObject.GetComponent<DataArray>().currentLevel.ToString());
 
-        ToSeconds(ref levelHighscore);
-        ToMinutes(ref levelHighscore);
+        ToSeconds(ref highscoreSeconds, levelHighscore);
+        ToMinutes(ref highscoreMinutes, levelHighscore);
+
+        Debug.Log(highscoreSeconds);
+        Debug.Log(highscoreMinutes);
     }
 
-    void Update()
+    private void Update()
     {
-        if (timeStarted == true)
+        if (timeStarted)
         {
             if (timeLevelJoin == 0)
             {
@@ -49,8 +52,8 @@ public class TimeManager : MonoBehaviour
 
             if (lastNum + 1 <= absoluteSeconds)
             {
-                ToSeconds(ref absoluteSeconds);
-                ToMinutes(ref absoluteSeconds);
+                ToSeconds(ref timeSeconds, absoluteSeconds);
+                ToMinutes(ref timeMinutes, absoluteSeconds);
                 lastNum = absoluteSeconds;
             }
 
@@ -59,24 +62,26 @@ public class TimeManager : MonoBehaviour
                 missedTimeGoal = true;
             }
 
-            if (gameObject.GetComponent<FinishManager>().levelCompleted && (levelHighscore == 0 || levelHighscore > absoluteSeconds))
+            if (GetComponent<FinishManager>().levelCompleted && (levelHighscore == 0 || levelHighscore > absoluteSeconds))
             {
                 levelHighscore = absoluteSeconds;
                 PlayerPrefs.SetInt("Highscore" + gameObject.GetComponent<DataArray>().currentLevel, levelHighscore);
                 PlayerPrefs.Save();
-                ToSeconds(ref levelHighscore);
-                ToMinutes(ref levelHighscore);
+                ToSeconds(ref highscoreSeconds, levelHighscore);
+                ToMinutes(ref highscoreMinutes, levelHighscore);
             }
+            return;
         }
+        timeStarted = GetComponent<TimeManager>().timeStarted;
     }
 
-    private void ToSeconds(ref int timeInput)
+    private void ToSeconds(ref int timeOutput, int timeInput)
     {
-        timeInput %= 60;
+        timeOutput %= 60;
     }
 
-    private void ToMinutes(ref int timeInput)
+    private void ToMinutes(ref int timeOutput, int timeInput)
     {
-        timeInput = Mathf.FloorToInt(timeInput / 60);
+        timeOutput = Mathf.FloorToInt(timeInput / 60);
     }
 }

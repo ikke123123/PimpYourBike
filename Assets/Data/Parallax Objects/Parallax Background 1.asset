@@ -16,3 +16,4 @@ MonoBehaviour:
     type: 3}
   hSpeed: -0.25
   vSpeed: 0
+  constantSpeed: -0.05

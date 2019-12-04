@@ -6,10 +6,9 @@ public class Suicide : MonoBehaviour
 {
     void Update()
     {
-        if (transform.position.y <= -20)
+        if (transform.position.y <= -10)
         {
             Destroy(gameObject);
-            Debug.Log("SUICIDE!");
         }
     }
 }

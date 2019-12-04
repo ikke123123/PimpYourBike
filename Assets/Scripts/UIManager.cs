@@ -5,21 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    //Importing Buttons
-    public GameObject[] buttons;
+    [Header("Game Objects")]
+    [SerializeField] private GameObject[] buttons;
+    [SerializeField] private GameObject[] objectsToDisableOnPause;
 
-    //Togglebutton to know to what the buttons have to be toggled to
-    private bool buttonsActive = false;
-
-    //To hide all buttons from the loading of the screen and make the time speed 1 again
     private void Start()
     {
-        Time.timeScale = 1.00f;
-
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            buttons[i].SetActive(false);
-        }
+        SetButtons(false);
     }
 
     private void Update()
@@ -30,42 +22,35 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //This slows game time to 0 and toggles he buttons to be active and working
     public void PauseGame()
     {
         if (Time.timeScale == 1.00f)
         {
             Time.timeScale = 0.00f;
+            SetButtons(true);
+            SetObjects(false);
         }
-        else if (Time.timeScale == 0.00f)
+        else
         {
             Time.timeScale = 1.00f;
-        }
-        else
-        {
-            Time.timeScale = 0.00f;
-        }
-
-        if (buttonsActive == true)
-        {
-            ButtonToggle(false);
-        }
-        else if (buttonsActive == false)
-        {
-            ButtonToggle(true);
-        }
-        else
-        {
-            Debug.Log("Error in UIManager");
+            SetButtons(false);
+            SetObjects(true);
         }
     }
 
-    private void ButtonToggle(bool active)
+    private void SetButtons(bool active)
     {
-        for (int i = 0; i < buttons.Length; i++)
+        foreach (GameObject button in buttons)
         {
-            buttons[i].SetActive(active);
+            button.SetActive(active);
         }
-        buttonsActive = active;
+    }
+
+    private void SetObjects(bool active)
+    {
+        foreach (GameObject gameObject in objectsToDisableOnPause)
+        {
+            gameObject.SetActive(active);
+        }
     }
 }
