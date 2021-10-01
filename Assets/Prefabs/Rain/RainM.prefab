@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 508687440158391512}
   - component: {fileID: 5245176574470429000}
   - component: {fileID: 8280749344824761635}
-  - component: {fileID: -913971058287049496}
   m_Layer: 0
   m_Name: RainM
   m_TagString: Untagged
@@ -103,15 +102,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-913971058287049496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6385310104822405859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ca2908bc5d8ca47a887b8dc09aa169, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -5,23 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    //private string targetLevel;
-    //private int targetNum;
+    private string targetLevel;
+    private int targetNum;
 
-    //private void Start()
-    //{
-    //    targetNum = PlayerPrefs.GetInt("targetLevel");
-    //    targetLevel = gameObject.GetComponent<DataArray>().level[targetNum];
-    //}
+    private void Start()
+    {
+        targetNum = PlayerPrefs.GetInt("targetLevel");
+        targetLevel = gameObject.GetComponent<DataArray>().level[targetNum];
+    }
 
-    //public void GoToTargetLevel()
-    //{
-    //    SceneManager.LoadScene(targetLevel, LoadSceneMode.Single);
-    //}
+    public void GoToTargetLevel()
+    {
+        SceneManager.LoadScene(targetLevel, LoadSceneMode.Single);
+    }
 
     public void ToShowroom()
     {
-        if (PlayerPrefs.GetString("hasVisitedControlRoom") == "true")
+        if (GetComponent<DataArray>().hasVisitedControls == true)
         {
             SceneManager.LoadScene("Showroom", LoadSceneMode.Single);
         }
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     public void Respawn()
     {
-        //SceneManager.LoadScene(gameObject.GetComponent<DataArray>().currentLevel, LoadSceneMode.Single);
+        SceneManager.LoadScene(gameObject.GetComponent<DataArray>().currentLevel, LoadSceneMode.Single);
     }
 
     public void QuitGame()

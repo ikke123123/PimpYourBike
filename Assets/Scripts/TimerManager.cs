@@ -2,51 +2,98 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class TimerManager : MonoBehaviour
 {
-    [Header("Timers")]
-    [SerializeField] private TextMeshProUGUI timer;
-    [SerializeField] private TextMeshProUGUI highScore;
-    [SerializeField] private TextMeshProUGUI goal; 
+    public GameObject[] timers;
 
-    [HideInInspector] private TimeManager timeManager;
-    [HideInInspector] private FinishManager finishManager;
-    [HideInInspector] private bool timeStarted;
-    [HideInInspector] private bool highScoreHasChanged;
+    private GameObject gameManager;
+    private GameObject timer;
+    private Text timerText;
+    private GameObject goal;
+    private Text goalText;
+    private GameObject highscore;
+    private Text highscoreText;
+    private TimeManager timeManager;
+    private bool timerActive = true;
+    public bool deactivateOnTime;
 
     private void Start()
     {
-        GameObject gameManager = GameObject.Find("Game Manager");
+        gameManager = GameObject.Find("Game Manager");
         timeManager = gameManager.GetComponent<TimeManager>();
-        finishManager = gameManager.GetComponent<FinishManager>();
 
-        timer.text = "Time: 00:00";
-        highScore.text = TimeToString(timeManager.highscoreSeconds, timeManager.highscoreMinutes, "Highscore");
-        goal.text = TimeToString(timeManager.timeGoalSeconds, timeManager.timeGoalMinutes, "Goal");
-    }
-
-    private void Update()
-    {
-        if (timeStarted)
+        for (int i = 0; i < timers.Length; i++)
         {
-            timer.text = TimeToString(timeManager.timeSeconds, timeManager.timeMinutes, "Time");
-
-            if (finishManager.levelCompleted || highScoreHasChanged == false)
+            if (!(timers[i].name.IndexOf("Time") == -1))
             {
-                highScoreHasChanged = true;
-                highScore.text = TimeToString(timeManager.highscoreSeconds, timeManager.highscoreMinutes, "Highscore");
-                return;
+                timer = timers[i];
+                timerText = timer.GetComponent<Text>();
+            } else if (!(timers[i].name.IndexOf("Goal") == -1))
+            {
+                goal = timers[i];
+                goalText = goal.GetComponent<Text>();
+            } else if (!(timers[i].name.IndexOf("Highscore") == -1))
+            {
+                highscore = timers[i];
+                highscoreText = highscore.GetComponent<Text>();
             }
-            timer.text = TimeToString(timeManager.timeSeconds, timeManager.timeMinutes, "Time");
-            return;
         }
-        timeStarted = timeManager.timeStarted;
+
+        goalText.text = DisplayText(timeManager.goalSeconds, timeManager.goalMinutes, "Goal");
+        highscoreText.text = DisplayText(timeManager.highscoreSeconds, timeManager.highscoreMinutes, "Highscore");
     }
 
-    private string TimeToString(int seconds, int minutes, string name)
+    void Update()
     {
-        return name + ": " + minutes.ToString("00") + ":" + seconds.ToString("00");
+        if (Time.timeScale == 0.00f && timerActive == true)
+        {
+            if (deactivateOnTime)
+            {
+                TimerToggle();
+            }
+        }
+        else if (Time.timeScale == 1.00f && timerActive == false)
+        {
+            if (deactivateOnTime)
+            {
+                TimerToggle();
+            }
+        }
+
+        if (!(gameManager.GetComponent<FinishManager>().levelCompleted))
+        {
+            timerText.text = DisplayText(timeManager.timeSeconds, timeManager.timeMinutes, "Time");
+        }
+
+        if (gameManager.GetComponent<FinishManager>().levelCompleted)
+        {
+            highscoreText.text = DisplayText(timeManager.highscoreSeconds, timeManager.highscoreMinutes, "Highscore");
+        }
+    }
+
+    private string DisplayText(int seconds, int minutes, string name)
+    {
+        string x = name + ": " + minutes.ToString("00") + ":" + seconds.ToString("00");
+        return x;
+    }
+
+    private void TimerToggle()
+    {
+        if (timerActive == false)
+        {
+            for (int i = 0; i < timers.Length; i++)
+            {
+                timers[i].SetActive(true);
+            }
+            timerActive = true;
+        } else
+        {
+            for (int i = 0; i < timers.Length; i++)
+            {
+                timers[i].SetActive(false);
+            }
+            timerActive = false;
+        }
     }
 }

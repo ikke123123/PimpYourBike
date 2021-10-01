@@ -4,57 +4,67 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
-    [Header("Camera")]
-    [SerializeField] private GameObject cam;
+    public GameObject cam;
+    public GameObject[] background;
+    public float[] speedHCoefficient;
+    public float[] speedVCoefficient;
 
-    [Header("Objects")]
-    [SerializeField] private ParallaxObject[] parallaxObjects;
-    [HideInInspector] private GameObject[] parallaxGameObjects;
-
-    //Vector3 of last cam position
-    [HideInInspector] private Vector3 lastCamPos;
-
-    [HideInInspector] private SpriteRenderer[] parallaxRenderers;
+    private float lastCamX;
+    private float lastCamY;
 
     void Start()
     {
-        lastCamPos = cam.GetComponent<Transform>().position;
-
-        parallaxGameObjects = new GameObject[parallaxObjects.Length];
-        parallaxRenderers = new SpriteRenderer[parallaxObjects.Length];
-
-        for (int i = 0; i < parallaxGameObjects.Length; i++)
-        {
-            parallaxGameObjects[i] = Instantiate(parallaxObjects[i].parallaxObject);
-            parallaxRenderers[i] = parallaxGameObjects[i].GetComponent<SpriteRenderer>();
-        }
+        lastCamX = cam.GetComponent<Transform>().position.x;
+        lastCamY = cam.GetComponent<Transform>().position.y;
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
-        Vector3 currentCamPos = cam.GetComponent<Transform>().position;
-        Vector3 camDeltaPos = lastCamPos - currentCamPos;
-
-        if (camDeltaPos != new Vector3(0, 0, 0))
+        if (lastCamX != cam.GetComponent<Transform>().position.x)
         {
-            for (int i = 0; i < parallaxGameObjects.Length; i++)
+            //Horizontal
+            for (int i = 0; i < background.Length; i++)
             {
-                Transform objectTransform = parallaxGameObjects[i].GetComponent<Transform>();
-                Vector3 currentObjectPos = objectTransform.position;
-
-                Vector3 newObjectPos = new Vector3(camDeltaPos.x * parallaxObjects[i].hSpeed + parallaxObjects[i].constantSpeed, camDeltaPos.y * parallaxObjects[i].vSpeed, 0f) + currentObjectPos;
-
-                if (currentCamPos.x >= currentObjectPos.x + parallaxRenderers[i].bounds.size.x * 0.5f)
-                {
-                    newObjectPos = new Vector3(newObjectPos.x + parallaxRenderers[i].bounds.size.x, newObjectPos.y, newObjectPos.z);
-                } else if (currentCamPos.x <= currentObjectPos.x - parallaxRenderers[i].bounds.size.x * 0.5f)
-                {
-                    newObjectPos = new Vector3(newObjectPos.x - parallaxRenderers[i].bounds.size.x, newObjectPos.y, newObjectPos.z);
-                }
-
-                objectTransform.position = newObjectPos;
+                background[i].GetComponent<Transform>().position += new Vector3((cam.GetComponent<Transform>().position.x - lastCamX) * speedHCoefficient[i], 0f, 0f);
             }
         }
-        lastCamPos = currentCamPos;
+        if (lastCamY != cam.GetComponent<Transform>().position.y)
+        {
+            //Vertical
+            for (int i = 0; i < background.Length; i++)
+            {
+                background[i].GetComponent<Transform>().position += new Vector3(0f, (cam.GetComponent<Transform>().position.y - lastCamY) * speedVCoefficient[i], 0f);
+            }
+        }
+
+        RightBackground();
+
+        LeftBackground();
+
+        lastCamX = cam.GetComponent<Transform>().position.x;
+        lastCamY = cam.GetComponent<Transform>().position.y;
     }
+
+    private void LeftBackground()
+    {
+        for (int i = 0; i < background.Length; i++)
+        {
+            if (cam.GetComponent<Transform>().position.x <= background[i].GetComponent<Transform>().position.x - background[i].GetComponent<SpriteRenderer>().bounds.size.x * 0.5f)
+            {
+                background[i].GetComponent<Transform>().position = new Vector3(background[i].GetComponent<Transform>().position.x - background[i].GetComponent<SpriteRenderer>().bounds.size.x, background[i].GetComponent<Transform>().position.y, background[i].GetComponent<Transform>().position.z);
+            }
+        }
+    }
+
+    private void RightBackground()
+    {
+        for (int i = 0; i < background.Length; i++)
+        {
+            if (cam.GetComponent<Transform>().position.x >= background[i].GetComponent<Transform>().position.x + background[i].GetComponent<SpriteRenderer>().bounds.size.x * 0.5f)
+            {
+                background[i].GetComponent<Transform>().position = new Vector3(background[i].GetComponent<Transform>().position.x + background[i].GetComponent<SpriteRenderer>().bounds.size.x, background[i].GetComponent<Transform>().position.y, background[i].GetComponent<Transform>().position.z);
+            }
+        }
+    }
+
 }

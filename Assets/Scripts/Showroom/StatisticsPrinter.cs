@@ -36,14 +36,14 @@ public class StatisticsPrinter : MonoBehaviour
         originalSize = speed.localScale.x;
     }
 
-    //void Update()
-    //{
-    //    speedBarSize = ((gameManager.GetComponent<DataArray>().speedModifier + 120) * 0.291666f + 30f) * 0.01f;
-    //    weightBarSize = ((gameManager.GetComponent<DataArray>().weightModifier + 20) * 4.666667f + 30f) * 0.01f;
-    //    gripBarSize = (gameManager.GetComponent<DataArray>().gripModifier * 5.833333f + 30f) * 0.01f;
+    void Update()
+    {
+        speedBarSize = ((gameManager.GetComponent<DataArray>().speedModifier + 120) * 0.291666f + 30f) * 0.01f;
+        weightBarSize = ((gameManager.GetComponent<DataArray>().weightModifier + 20) * 4.666667f + 30f) * 0.01f;
+        gripBarSize = (gameManager.GetComponent<DataArray>().gripModifier * 5.833333f + 30f) * 0.01f;
 
-    //    speed.localScale = new Vector3(originalSize * speedBarSize, speed.localScale.y);
-    //    weight.localScale = new Vector2(originalSize * weightBarSize, speed.localScale.y);
-    //    grip.localScale = new Vector2(originalSize * gripBarSize, speed.localScale.y);
-    //}
+        speed.localScale = new Vector3(originalSize * speedBarSize, speed.localScale.y);
+        weight.localScale = new Vector2(originalSize * weightBarSize, speed.localScale.y);
+        grip.localScale = new Vector2(originalSize * gripBarSize, speed.localScale.y);
+    }
 }

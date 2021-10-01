@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2579250613646785198}
   - component: {fileID: 7639572555703250295}
   - component: {fileID: 3021130244471991433}
-  - component: {fileID: 5195247749645407145}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Data Array
@@ -47,38 +46,148 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cc6fab9abfff54eb71bcd4a4adcac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wheels:
-  - {fileID: 11400000, guid: 6c19d89681258ee4fa17ebbf180f2bdc, type: 2}
-  - {fileID: 11400000, guid: 7efe6dedcc9338a4d9d1658ccc586377, type: 2}
-  - {fileID: 11400000, guid: 73653e06121e8e049b16a058fd98d4ef, type: 2}
-  - {fileID: 11400000, guid: 1b0deb70f1e494044b60fa31b78a6de1, type: 2}
-  frames:
-  - {fileID: 11400000, guid: 429e1108cfad1344195712a64aa823d9, type: 2}
-  - {fileID: 11400000, guid: ecd3687853c60cc41ba2d919ba946201, type: 2}
-  - {fileID: 11400000, guid: 5032371cbd65ef540b464e0f837c0496, type: 2}
-  - {fileID: 11400000, guid: 2fe5578cfe9ed4742b7a3ae040fe4935, type: 2}
-  handles:
-  - {fileID: 11400000, guid: 15d2945c8babbd143bd0872914272257, type: 2}
-  - {fileID: 11400000, guid: 85b52f232873d8644a00c5f3f724aa75, type: 2}
-  - {fileID: 11400000, guid: 908aadc834a066c4a93395e0a6af6262, type: 2}
-  - {fileID: 11400000, guid: e120506c0bf5dd249b659a0f25f26d17, type: 2}
-  pedals:
-  - {fileID: 11400000, guid: 85f03f5c9dc1cfd40a4d182b1a9dbcad, type: 2}
-  - {fileID: 11400000, guid: c622721e291cf1e4aa267ec3b4b13f12, type: 2}
-  - {fileID: 11400000, guid: 0730b647c24e8d74aa2f2abe26d41cb2, type: 2}
-  - {fileID: 11400000, guid: 10be0612d38d85f4e9cb547e34e17a06, type: 2}
-  nominalRainPenalty: -1
-  nominalStormPenalty: -2
+  wheel:
+    selected: 0
+    sprite:
+    - {fileID: 21300000, guid: c3a7dadc1a774b240b51eeec25070763, type: 3}
+    - {fileID: 21300000, guid: d13dcf85b0172fb4bb17dd5a6a05e813, type: 3}
+    - {fileID: 21300000, guid: 955ede16ff2f30e4f8194889fb30c32a, type: 3}
+    - {fileID: 21300000, guid: 3d827a1cce8fae44ab4c895e39b44a83, type: 3}
+    Speed:
+    - 30
+    - 10
+    - 20
+    - 40
+    Grip:
+    - 30
+    - 40
+    - 10
+    - 20
+    Weight:
+    - 30
+    - 10
+    - 40
+    - 20
+  handle:
+    selected: 0
+    sprite:
+    - {fileID: 21300000, guid: 6336400e8cc336a40a869896449af9c6, type: 3}
+    - {fileID: 21300000, guid: 0ce19c9a7733601459162eac6d20ca88, type: 3}
+    - {fileID: 21300000, guid: 5d44e62c6de31c847a9ba3d852ba56ab, type: 3}
+    - {fileID: 21300000, guid: 8bd7faedae89de24d9a78d863eb7eaa5, type: 3}
+    Speed:
+    - 30
+    - 40
+    - 10
+    - 20
+    Grip:
+    - 30
+    - 10
+    - 20
+    - 40
+    Weight:
+    - 20
+    - 10
+    - 40
+    - 30
+  frame:
+    selected: 0
+    sprite:
+    - {fileID: 21300000, guid: 66f1b8ff2d367ba44b88662902f2c8b5, type: 3}
+    - {fileID: 21300000, guid: e0d29f1324773df4ea98888df9600a8b, type: 3}
+    - {fileID: 21300000, guid: c9e1116554b93d74ab0a6911526ca493, type: 3}
+    - {fileID: 21300000, guid: 255c5b66fa3346a43a0dd39914632806, type: 3}
+    Speed:
+    - 20
+    - 40
+    - 30
+    - 10
+    Grip:
+    - 40
+    - 20
+    - 10
+    - 30
+    Weight:
+    - 20
+    - 40
+    - 10
+    - 30
+  crank:
+    selected: 0
+    sprite:
+    - {fileID: 21300000, guid: f0b2f84563fd726478fe4d58a546caf5, type: 3}
+    - {fileID: 21300000, guid: 285b0f6ad613c334ea4e09ee376c89b9, type: 3}
+    - {fileID: 21300000, guid: bf910696c4efbc6438a0f964023e7fdb, type: 3}
+    - {fileID: 21300000, guid: c69b959bd8723484e97ac02d668779e3, type: 3}
+    Speed: []
+    Grip: []
+    Weight: []
+  pedal:
+    selected: 0
+    sprite:
+    - {fileID: 21300000, guid: 4a2636ba2f2083e4d97e3f4349a4317d, type: 3}
+    - {fileID: 21300000, guid: 324bc5c36520ad447b9307d01cb4863d, type: 3}
+    - {fileID: 21300000, guid: 7e35bd1700b88324f91215006cb7963d, type: 3}
+    - {fileID: 21300000, guid: f3fbd4e1a77b06d4a8e49fb489bb41bb, type: 3}
+    Speed:
+    - 30
+    - 20
+    - 40
+    - 10
+    Grip:
+    - 20
+    - 30
+    - 10
+    - 40
+    Weight:
+    - 40
+    - 20
+    - 30
+    - 10
   push: 0
   pull: 0
-  levels:
-  - {fileID: 11400000, guid: 869f1c82392766242a16b07bc2aacbe6, type: 2}
-  currentLevel: 0
-  absoluteTimeGoal: 0
-  wheelSelected: {fileID: 0}
-  frameSelected: {fileID: 0}
-  handleSelected: {fileID: 0}
-  pedalSelected: {fileID: 0}
+  weather:
+  - elementType: Frame
+    elementNo: 2
+    dry: 0
+    rain: 30
+    storm: 30
+    wind: 0
+  - elementType: Pedal
+    elementNo: 2
+    dry: -10
+    rain: 20
+    storm: 20
+    wind: 0
+  - elementType: Wheel
+    elementNo: 2
+    dry: 0
+    rain: 0
+    storm: 0
+    wind: -40
+  - elementType: Pedal
+    elementNo: 3
+    dry: 0
+    rain: 10
+    storm: 10
+    wind: 10
+  nominalRainPenalty: -10
+  nominalStormPenalty: -20
+  level:
+  - Level 1
+  goal: 78000000
+  currentLevel: 
+  currentGoal: 0
+  speedModifier: 0
+  weightModifier: 0
+  gripModifier: 0
+  dryModifier: 0
+  rainModifier: 0
+  stormModifier: 0
+  windModifier: 0
+  isInRain: 0
+  isInStorm: 0
+  isInWind: 0
 --- !u!114 &2579250613646785198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,13 +202,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeSeconds: 0
   timeMinutes: 0
-  absoluteSeconds: 0
-  timeStarted: 0
-  timeGoalSeconds: 0
-  timeGoalMinutes: 0
-  missedTimeGoal: 0
+  goalSeconds: 0
+  goalMinutes: 0
   highscoreMinutes: 0
   highscoreSeconds: 0
+  absoluteSeconds: 0
+  missedGoal: 0
 --- !u!114 &7639572555703250295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,17 +233,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7b64fb0c2422dd42a62ef0beb52b8a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5195247749645407145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 624832346935751434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8df64fd08e18da34d8daa56607f4e419, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bikeToPushTo:
-  - {fileID: 0}
