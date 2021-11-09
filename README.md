@@ -1,5 +1,5 @@
 # PimpYourBike
-A C# Unity game in which you have to ride your bike to Hanzehogeschool in Groningen through the weather and obstacles in the road.
+A C# Unity game in which you have to ride your bike to Hanzehogeschool in Groningen through the weather and obstacles in the way.
 
 ![image](https://user-images.githubusercontent.com/45997197/135986000-b1b55c23-4042-4555-b832-2e46a665f8e6.png)
 
